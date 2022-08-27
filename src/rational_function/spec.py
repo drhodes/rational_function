@@ -5,9 +5,12 @@ class Function():
         self.denom = None
 
 # interface        
-class Constraint:        
-    def same_shares_type(self, obj):
-        return self.__class__.name == obj.__class__.name 
+class Constraint:
+    def name(self):
+        return self.__class__.__name__
+        
+    def has_same_type(self, obj):
+        return self.name() == obj.name()
 
 class HorizontalAsymptote(Constraint):
     def __init__(self, y):
@@ -39,12 +42,12 @@ class FunctionSpec():
 
     def add_constraint(self, c):
         # count how many constraints of this type c have already been added.
-        matches = len(x for x in self.constraints if x.has_same_type(c))
+        matches = sum(1 for x in self.constraints if x.has_same_type(c))
         
         if matches < c.max_allowed():
             self.constraints.append(c)
             return self
-        raise Error("Can't add any more constraints of type: ")
+        raise Exception(f"Can't add any more constraints of type: {c.name()}" )
         
     def add_horizontal_asymptote(self, y):
         return self.add_constraint(HorizontalAsymptote(y))
