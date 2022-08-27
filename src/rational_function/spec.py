@@ -39,7 +39,7 @@ class FunctionSpec():
 
     def add_constraint(self, c):
         # count how many constraints of this type c have already been added.
-        matches = sum(1 for x in self.constraints if x.has_same_type(c))
+        matches = len(x for x in self.constraints if x.has_same_type(c))
         
         if matches < c.max_allowed():
             self.constraints.append(c)
